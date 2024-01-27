@@ -11,21 +11,21 @@ function Navbar() {
                 to="/home"
                 className="flex items-center gap-2 ml-auto text-sm md:text-base"
             >
-                <HomeIcon />
+                <HomeIcon className="hidden sm:block" />
                 Home
             </Link>
             <Link
                 to="/shop"
                 className="flex items-center gap-2 text-sm md:text-base"
             >
-                <ShoppingBag />
+                <ShoppingBag className="hidden sm:block" />
                 Shop
             </Link>
             <Link
                 to="/cart"
                 className="flex items-center gap-2 text-sm md:text-base"
             >
-                <ShoppingCart />
+                <ShoppingCart className="hidden sm:block" />
                 Shopping Cart
             </Link>
         </div>
