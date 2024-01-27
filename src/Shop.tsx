@@ -30,16 +30,16 @@ const SkeletonCard = () => (
                     width: "100px",
                 }}
             />
-            <div className="grid gap-1 w-full">
+            <div className="grid gap-2 w-full">
                 <div className="h-6 bg-gray-300 animate-pulse rounded-md" />
-                <div className="h-4 bg-gray-300 animate-pulse rounded-md" />
+                <div className="h-5 w-14 bg-gray-300 animate-pulse rounded-md" />
             </div>
         </CardHeader>
         <CardContent className="grid gap-4">
             <div className="flex items-center gap-4">
-                <div className="w-8 h-8 bg-gray-300 animate-pulse rounded-md" />
-                <div className="w-16 h-8 bg-gray-300 animate-pulse rounded-md" />
-                <div className="w-8 h-8 bg-gray-300 animate-pulse rounded-md" />
+                <div className="w-10 h-10 bg-gray-300 animate-pulse rounded-md" />
+                <div className="w-16 h-10 bg-gray-300 animate-pulse rounded-md" />
+                <div className="w-10 h-10 bg-gray-300 animate-pulse rounded-md" />
             </div>
             <div className="h-10 bg-gray-300 animate-pulse rounded-md" />
         </CardContent>
