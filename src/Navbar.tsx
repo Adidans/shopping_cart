@@ -7,15 +7,24 @@ function Navbar() {
             <Link to="/home">
                 <StoreIcon />
             </Link>
-            <Link to="/home" className="flex items-center gap-2 ml-auto">
+            <Link
+                to="/home"
+                className="flex items-center gap-2 ml-auto text-sm md:text-base"
+            >
                 <HomeIcon />
                 Home
             </Link>
-            <Link to="/shop" className="flex items-center gap-2">
+            <Link
+                to="/shop"
+                className="flex items-center gap-2 text-sm md:text-base"
+            >
                 <ShoppingBag />
                 Shop
             </Link>
-            <Link to="/cart" className="flex items-center gap-2">
+            <Link
+                to="/cart"
+                className="flex items-center gap-2 text-sm md:text-base"
+            >
                 <ShoppingCart />
                 Shopping Cart
             </Link>
