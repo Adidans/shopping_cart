@@ -23,7 +23,7 @@ function ShoppingCart() {
         return null;
     }
 
-    const { cart, setCart } = context;
+    const { cart, setCart, removeFromCart } = context;
 
     const updateQuantity = (productId: number, quantity: number) => {
         setCart((prevCart) => {
@@ -110,7 +110,13 @@ function ShoppingCart() {
                                         ).toFixed(2)}
                                     </TableCell>
                                     <TableCell>
-                                        <Button size="icon" variant="outline">
+                                        <Button
+                                            size="icon"
+                                            variant="outline"
+                                            onClick={() => {
+                                                removeFromCart(product.id);
+                                            }}
+                                        >
                                             <TrashIcon className="h-4 w-4" />
                                             <span className="sr-only">
                                                 Remove

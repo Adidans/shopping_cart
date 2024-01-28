@@ -42,6 +42,12 @@ const Router = () => {
         });
     };
 
+    const removeFromCart = (productId: number) => {
+        setCart((prevCart: Product[]) => {
+            return prevCart.filter((product) => product.id !== productId);
+        });
+    };
+
     const router = createBrowserRouter([
         {
             path: "/",
@@ -63,7 +69,7 @@ const Router = () => {
     ]);
 
     return (
-        <CartProvider value={{ cart, addToCart, setCart }}>
+        <CartProvider value={{ cart, addToCart, setCart, removeFromCart }}>
             <RouterProvider router={router} />
         </CartProvider>
     );

@@ -14,6 +14,7 @@ interface CartContextType {
     cart: Product[];
     setCart: React.Dispatch<React.SetStateAction<Product[]>>;
     addToCart: (product: Product) => void;
+    removeFromCart: (productId: number) => void;
 }
 
 // Create the context with a default value of undefined
