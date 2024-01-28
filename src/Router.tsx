@@ -4,8 +4,44 @@ import Home from "./Home";
 import Shop from "./Shop";
 import ShoppingCart from "./ShoppingCart";
 import "./App.css";
+import { useState } from "react";
+import { CartProvider } from "./CartContext";
+
+interface Product {
+    id: number;
+    title: string;
+    price: number;
+    description: string;
+    category: string;
+    image: string;
+    quantity: number;
+}
 
 const Router = () => {
+    const [cart, setCart] = useState<Product[]>([]);
+
+    const addToCart = (product: Product) => {
+        setCart((prevCart: Product[]) => {
+            const existingProductIndex = prevCart.findIndex(
+                (p) => p.id === product.id
+            );
+            if (existingProductIndex !== -1) {
+                // If the product is already in the cart, increase its quantity
+                const newCart = [...prevCart];
+                newCart[existingProductIndex] = {
+                    ...newCart[existingProductIndex],
+                    quantity:
+                        newCart[existingProductIndex].quantity +
+                        product.quantity,
+                };
+                return newCart;
+            } else {
+                // If the product is not in the cart, add it
+                return [...prevCart, product];
+            }
+        });
+    };
+
     const router = createBrowserRouter([
         {
             path: "/",
@@ -26,7 +62,11 @@ const Router = () => {
         },
     ]);
 
-    return <RouterProvider router={router} />;
+    return (
+        <CartProvider value={{ cart, addToCart, setCart }}>
+            <RouterProvider router={router} />
+        </CartProvider>
+    );
 };
 
 export default Router;

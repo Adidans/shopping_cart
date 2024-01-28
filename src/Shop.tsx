@@ -6,10 +6,11 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button } from "./components/ui/button";
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { Input } from "./components/ui/input";
+import { CartContext } from "./CartContext";
 
 interface Product {
     id: number;
@@ -18,6 +19,7 @@ interface Product {
     description: string;
     category: string;
     image: string;
+    quantity: number;
 }
 
 const SkeletonCard = () => (
@@ -53,6 +55,14 @@ function Shop() {
     const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
     const [isLoading, setIsLoading] = useState(false);
 
+    const context = useContext(CartContext);
+
+    const { cart, addToCart } = context || {};
+
+    useEffect(() => {
+        console.log(cart);
+    }, [cart]);
+
     useEffect(() => {
         setIsLoading(true);
 
@@ -68,6 +78,12 @@ function Shop() {
                 setIsLoading(false);
             });
     }, []);
+
+    if (!context) {
+        // Handle the case where the context is undefined
+        // This could be showing a loading spinner, returning null, or throwing an error
+        return null;
+    }
 
     return (
         <div className="flex flex-col h-full w-full overflow-auto">
@@ -130,15 +146,15 @@ function Shop() {
                                             className="w-16 text-center"
                                             value={quantity}
                                             type="number"
-                                            onChange={(e) =>
+                                            onChange={(e) => {
+                                                const newQuantity = Number(
+                                                    e.target.value
+                                                );
                                                 setQuantities({
                                                     ...quantities,
-                                                    [product.id]: Math.max(
-                                                        1,
-                                                        parseInt(e.target.value)
-                                                    ),
-                                                })
-                                            }
+                                                    [product.id]: newQuantity,
+                                                });
+                                            }}
                                         />
                                         <Button
                                             size="icon"
@@ -156,7 +172,21 @@ function Shop() {
                                             </span>
                                         </Button>
                                     </div>
-                                    <Button className="w-full">
+                                    <Button
+                                        className="w-full"
+                                        onClick={() => {
+                                            if (addToCart) {
+                                                const quantity =
+                                                    quantities[product.id] || 1;
+                                                // Create a copy of the product and add the quantity
+                                                const productWithQuantity = {
+                                                    ...product,
+                                                    quantity,
+                                                };
+                                                addToCart(productWithQuantity);
+                                            }
+                                        }}
+                                    >
                                         Add to Cart
                                     </Button>
                                 </CardContent>

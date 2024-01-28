@@ -10,8 +10,41 @@ import {
 import { Button } from "./components/ui/button";
 import { TrashIcon } from "lucide-react";
 import { Input } from "./components/ui/input";
+import { useContext } from "react";
+import { CartContext } from "./CartContext";
+import { Link } from "react-router-dom";
 
 function ShoppingCart() {
+    const context = useContext(CartContext);
+
+    if (!context) {
+        // Handle the case where the context is undefined
+        // This could be showing a loading spinner, returning null, or throwing an error
+        return null;
+    }
+
+    const { cart, setCart } = context;
+
+    const updateQuantity = (productId: number, quantity: number) => {
+        setCart((prevCart) => {
+            const existingProductIndex = prevCart.findIndex(
+                (p) => p.id === productId
+            );
+            if (existingProductIndex !== -1) {
+                // If the product is in the cart, update its quantity
+                const newCart = [...prevCart];
+                newCart[existingProductIndex] = {
+                    ...newCart[existingProductIndex],
+                    quantity: quantity,
+                };
+                return newCart;
+            } else {
+                // If the product is not in the cart, do nothing
+                return prevCart;
+            }
+        });
+    };
+
     return (
         <>
             <Navbar />
@@ -36,74 +69,76 @@ function ShoppingCart() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            <TableRow>
-                                <TableCell>
-                                    <img
-                                        alt="Product image"
-                                        className="aspect-square rounded-md object-cover"
-                                        height="64"
-                                        src="/placeholder.svg"
-                                        width="64"
-                                    />
-                                </TableCell>
-                                <TableCell className="font-medium">
-                                    Glimmer Lamps
-                                </TableCell>
-                                <TableCell>$50.00</TableCell>
-                                <TableCell>
-                                    <Input
-                                        className="w-16 text-center"
-                                        defaultValue="2"
-                                        min="1"
-                                        type="number"
-                                    />
-                                </TableCell>
-                                <TableCell>$100.00</TableCell>
-                                <TableCell>
-                                    <Button size="icon" variant="outline">
-                                        <TrashIcon className="h-4 w-4" />
-                                        <span className="sr-only">Remove</span>
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>
-                                    <img
-                                        alt="Product image"
-                                        className="aspect-square rounded-md object-cover"
-                                        height="64"
-                                        src="/placeholder.svg"
-                                        width="64"
-                                    />
-                                </TableCell>
-                                <TableCell className="font-medium">
-                                    Aqua Filters
-                                </TableCell>
-                                <TableCell>$30.00</TableCell>
-                                <TableCell>
-                                    <Input
-                                        className="w-16 text-center"
-                                        defaultValue="1"
-                                        min="1"
-                                        type="number"
-                                    />
-                                </TableCell>
-                                <TableCell>$30.00</TableCell>
-                                <TableCell>
-                                    <Button size="icon" variant="outline">
-                                        <TrashIcon className="h-4 w-4" />
-                                        <span className="sr-only">Remove</span>
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
+                            {Object.values(cart).map((product) => (
+                                <TableRow key={product.id}>
+                                    <TableCell>
+                                        <img
+                                            alt="Product image"
+                                            className="aspect-square rounded-md object-cover"
+                                            height="64"
+                                            src={product.image}
+                                            width="64"
+                                        />
+                                    </TableCell>
+                                    <TableCell className="font-medium">
+                                        {product.title}
+                                    </TableCell>
+                                    <TableCell>
+                                        ${product.price.toFixed(2)}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Input
+                                            className="w-16 text-center"
+                                            defaultValue={product.quantity}
+                                            min="1"
+                                            type="number"
+                                            onChange={(e) => {
+                                                const newQuantity = Number(
+                                                    e.target.value
+                                                );
+                                                updateQuantity(
+                                                    product.id,
+                                                    newQuantity
+                                                );
+                                            }}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        $
+                                        {(
+                                            product.price * product.quantity
+                                        ).toFixed(2)}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button size="icon" variant="outline">
+                                            <TrashIcon className="h-4 w-4" />
+                                            <span className="sr-only">
+                                                Remove
+                                            </span>
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                         </TableBody>
                     </Table>
                 </div>
                 <div className="flex items-center justify-between mt-6">
-                    <Button variant="outline">Continue Shopping</Button>
+                    <Button variant="outline">
+                        <Link to="/shop">Continue Shopping</Link>
+                    </Button>
                     <div className="text-right">
                         <div className="text-sm text-gray-500">Total</div>
-                        <div className="text-xl font-semibold">$130.00</div>
+                        <div className="text-xl font-semibold">
+                            $
+                            {Object.values(cart)
+                                .reduce(
+                                    (total, product) =>
+                                        total +
+                                        product.price * product.quantity,
+                                    0
+                                )
+                                .toFixed(2)}
+                        </div>
                     </div>
                 </div>
                 <Button className="mt-4">Proceed to Checkout</Button>
