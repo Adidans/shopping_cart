@@ -80,8 +80,6 @@ function Shop() {
     }, []);
 
     if (!context) {
-        // Handle the case where the context is undefined
-        // This could be showing a loading spinner, returning null, or throwing an error
         return null;
     }
 
@@ -178,7 +176,6 @@ function Shop() {
                                             if (addToCart) {
                                                 const quantity =
                                                     quantities[product.id] || 1;
-                                                // Create a copy of the product and add the quantity
                                                 const productWithQuantity = {
                                                     ...product,
                                                     quantity,

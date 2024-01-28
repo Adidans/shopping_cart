@@ -18,8 +18,6 @@ function ShoppingCart() {
     const context = useContext(CartContext);
 
     if (!context) {
-        // Handle the case where the context is undefined
-        // This could be showing a loading spinner, returning null, or throwing an error
         return null;
     }
 
@@ -31,7 +29,6 @@ function ShoppingCart() {
                 (p) => p.id === productId
             );
             if (existingProductIndex !== -1) {
-                // If the product is in the cart, update its quantity
                 const newCart = [...prevCart];
                 newCart[existingProductIndex] = {
                     ...newCart[existingProductIndex],
@@ -39,7 +36,6 @@ function ShoppingCart() {
                 };
                 return newCart;
             } else {
-                // If the product is not in the cart, do nothing
                 return prevCart;
             }
         });

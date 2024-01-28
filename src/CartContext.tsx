@@ -17,7 +17,6 @@ interface CartContextType {
     removeFromCart: (productId: number) => void;
 }
 
-// Create the context with a default value of undefined
 export const CartContext = React.createContext<CartContextType | undefined>(
     undefined
 );

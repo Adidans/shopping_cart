@@ -26,7 +26,6 @@ const Router = () => {
                 (p) => p.id === product.id
             );
             if (existingProductIndex !== -1) {
-                // If the product is already in the cart, increase its quantity
                 const newCart = [...prevCart];
                 newCart[existingProductIndex] = {
                     ...newCart[existingProductIndex],
@@ -36,7 +35,6 @@ const Router = () => {
                 };
                 return newCart;
             } else {
-                // If the product is not in the cart, add it
                 return [...prevCart, product];
             }
         });

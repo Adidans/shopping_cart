@@ -6,9 +6,6 @@ function App() {
     return (
         <div className="w-full h-full">
             <Navbar />
-            {/* <Link to="home">Home</Link>
-            <Link to="shop">Shop</Link>
-            <Link to="cart">Shopping Cart</Link> */}
         </div>
     );
 }
