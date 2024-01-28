@@ -65,7 +65,6 @@ function Shop() {
             })
             .then((response) => {
                 setProducts(response);
-                console.log(response);
                 setIsLoading(false);
             });
     }, []);
